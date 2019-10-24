@@ -1453,7 +1453,7 @@ function FlatpickrInstance(
             !isCalendarElement &&
             !isCalendarElem(e.relatedTarget as HTMLElement);
 
-      const isIgnored = !self.config.ignoredFocusElements.some(elem =>
+      const isIgnored = !self.config.ignoredFocusElements.some((elem:any) =>
         elem.contains(eventTarget as Node)
       );
 
@@ -1480,7 +1480,7 @@ function FlatpickrInstance(
     if (
       !newYear ||
       (self.config.minDate && newYear < self.config.minDate.getFullYear()) ||
-      (self.config.maxDate && newYear > self.config.maxDate.getFullYear())
+      ( self.config.maxDate && newYear > self.config.maxDate.getFullYear() )
     )
       return;
 
@@ -1644,7 +1644,11 @@ function FlatpickrInstance(
 
         case 8:
         case 46:
-          if (isInput && !self.config.allowInput) {
+          if (
+            isInput &&
+            !self.config.allowInput &&
+            self.config.allowClearInput
+          ) {
             e.preventDefault();
             self.clear();
           }
@@ -1950,6 +1954,7 @@ function FlatpickrInstance(
       "wrap",
       "weekNumbers",
       "allowInput",
+      "allowClearInput",
       "clickOpens",
       "time_24hr",
       "enableTime",
@@ -2146,13 +2151,13 @@ function FlatpickrInstance(
       showOnTop =
         configPosVertical === "above" ||
         (configPosVertical !== "below" &&
-          distanceFromBottom < calendarHeight &&
-          inputBounds.top > calendarHeight);
+          distanceFromBottom < <any>calendarHeight &&
+          inputBounds.top > <any>calendarHeight);
 
     let top =
       window.pageYOffset +
       inputBounds.top +
-      (!showOnTop ? positionElement.offsetHeight + 2 : -calendarHeight - 2);
+      (!showOnTop ? positionElement.offsetHeight + 2 : -<any>calendarHeight - 2);
 
     toggleClass(self.calendarContainer, "arrowTop", !showOnTop);
     toggleClass(self.calendarContainer, "arrowBottom", showOnTop);
@@ -2346,7 +2351,7 @@ function FlatpickrInstance(
       if (CALLBACKS[option] !== undefined)
         (CALLBACKS[option] as Function[]).forEach(x => x());
       else if (HOOKS.indexOf(option as HookKey) > -1)
-        self.config[option] = arrayify(value);
+        self.config[option] = arrayify(value) as any;
     }
 
     self.redraw();

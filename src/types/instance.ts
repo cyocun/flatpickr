@@ -70,7 +70,7 @@ export type Instance = Elements &
     _initialDate: Date;
 
     // State
-    config: ParsedOptions;
+    config: ParsedOptions|any;
     loadedPlugins: string[];
     l10n: Locale;
 
